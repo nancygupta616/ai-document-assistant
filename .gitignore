@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.env
+.pytest_cache/
+
+# Node / Angular
+node_modules/
+dist/
+/tmp
+/out-tsc
+npm-debug.log
+yarn-error.log
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Build/deploy
+.angular/

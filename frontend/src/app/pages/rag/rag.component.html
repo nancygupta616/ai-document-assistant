@@ -1,0 +1,86 @@
+<div class="wrap">
+  <div class="panel ragpage">
+    <div class="raghead">
+      <p class="eyebrow">// documents</p>
+      <h1 class="raghead__title">Document Agent</h1>
+      <p class="raghead__sub">Upload a file, then ask questions answered only from its text.</p>
+    </div>
+
+    <div class="ragbody">
+      @if (loadedDocument(); as doc) {
+        <div class="loaded">
+          <span class="loaded__dot"></span>
+          <span class="loaded__name" [title]="doc.filename">{{ doc.filename }}</span>
+          <span class="loaded__meta">{{ formatSize(doc.size) }} &middot; {{ doc.characters | number }} chars</span>
+          <button class="loaded__clear" (click)="reset()">reset</button>
+        </div>
+      } @else {
+        <label class="upload" [class.upload--busy]="uploading()">
+          <input type="file" (change)="onFileSelected($event)" hidden />
+          @if (uploading()) {
+            <span class="spinner"></span>
+            <span>uploading...</span>
+          } @else {
+            <span class="upload__glyph">{{ '{ }' }}</span>
+            <span class="upload__text">click to upload your document</span>
+            <span class="upload__hint">pdf, docx, txt, md</span>
+          }
+        </label>
+      }
+
+      @if (uploadError()) {
+        <p class="err">{{ uploadError() }}</p>
+      }
+
+      <div class="ask">
+        <textarea
+          class="field ask__input"
+          rows="3"
+          [ngModel]="question()"
+          (ngModelChange)="question.set($event)"
+          [disabled]="!loadedDocument()"
+          placeholder="Ask a question about your document..."
+        ></textarea>
+        <button class="btn ask__btn" [disabled]="!canAsk()" (click)="ask()">
+          {{ thinking() ? 'thinking...' : 'ask' }}
+        </button>
+      </div>
+
+      @if (answers().length > 0) {
+        <div class="answers">
+          @for (m of answers(); track trackById($index, m)) {
+            <div class="qa qa--{{ m.role }}" [class.qa--error]="m.error">
+              <span class="qa__tag">{{ m.role === 'user' ? 'you asked' : 'answer' }}</span>
+              @if (m.pending) {
+                <span class="typing"><span></span><span></span><span></span></span>
+              } @else {
+                <p class="qa__text">{{ m.text }}</p>
+              }
+              @if (m.grounding) {
+                <div class="source">
+                  <span class="source__label">from your document</span>
+                  <p class="source__quote">{{ m.grounding }}</p>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+
+      <div class="features">
+        <div class="feature">
+          <span class="feature__key">retrieval</span>
+          <span class="feature__val">answers come from your own data</span>
+        </div>
+        <div class="feature">
+          <span class="feature__key">grounded</span>
+          <span class="feature__val">every reply cites its source</span>
+        </div>
+        <div class="feature">
+          <span class="feature__key">private</span>
+          <span class="feature__val">your docs stay in your backend</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

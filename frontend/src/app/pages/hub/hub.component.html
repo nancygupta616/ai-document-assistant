@@ -1,0 +1,46 @@
+<div class="wrap">
+  <section class="hero">
+    <p class="eyebrow">// ai assistant</p>
+    <h1 class="hero__title">Ask anything.<br />Ground it in <span class="hl">your documents</span>.</h1>
+    <p class="hero__lead">
+      A developer-friendly assistant. Chat freely, or attach a file and get answers
+      pulled straight from your own text &mdash; with the source shown every time.
+    </p>
+
+    <div class="terminal" aria-hidden="true">
+      <div class="terminal__bar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="terminal__title">assistant &mdash; zsh</span>
+      </div>
+      <div class="terminal__body">
+        <p><span class="p">$</span> assistant --help</p>
+        <p class="dim">Two ways to work:</p>
+        <p><span class="c">chat</span>       talk to a general-purpose model</p>
+        <p><span class="c">documents</span>  ask questions grounded in a file</p>
+        <p><span class="p">$</span> <span class="cursor"></span></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="modes">
+    <a class="mode" routerLink="/chat">
+      <div class="mode__head">
+        <span class="mode__glyph">&gt;_</span>
+        <h2 class="mode__title">chat</h2>
+      </div>
+      <p class="mode__text">Talk to a general-purpose AI. Attach a document any time to chat with it.</p>
+      <span class="mode__go">open chat &rarr;</span>
+    </a>
+
+    <a class="mode" routerLink="/rag">
+      <div class="mode__head">
+        <span class="mode__glyph">{{ '{ }' }}</span>
+        <h2 class="mode__title">documents</h2>
+      </div>
+      <p class="mode__text">Upload a file and ask questions answered only from your own text.</p>
+      <span class="mode__go">open documents &rarr;</span>
+    </a>
+  </div>
+
+  <p class="foot">built with angular &amp; fastapi</p>
+</div>

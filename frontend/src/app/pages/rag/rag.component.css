@@ -1,0 +1,122 @@
+.raghead {
+  padding: 1.3rem clamp(1rem, 3vw, 1.6rem);
+  border-bottom: 1px solid var(--border);
+}
+.raghead__title { font-family: var(--mono); font-size: 1.4rem; font-weight: 700; margin-top: 0.2rem; }
+.raghead__sub { margin: 0.4rem 0 0; color: var(--text-dim); font-size: 0.95rem; }
+
+.ragbody {
+  padding: clamp(1.2rem, 3vw, 1.6rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 1.8rem;
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+.upload:hover { border-color: var(--accent); background: var(--accent-soft); }
+.upload--busy { cursor: progress; flex-direction: row; }
+.upload__glyph { font-family: var(--mono); font-weight: 700; font-size: 1.5rem; color: var(--accent); }
+.upload__text { font-family: var(--mono); font-size: 0.9rem; color: var(--text); }
+.upload__hint { font-family: var(--mono); font-size: 0.76rem; color: var(--text-dim); }
+
+.loaded {
+  display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.loaded__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 22%, transparent); }
+.loaded__name { font-family: var(--mono); font-weight: 600; color: var(--text); }
+.loaded__meta { font-family: var(--mono); font-size: 0.78rem; color: var(--text-dim); }
+.loaded__clear {
+  margin-left: auto; font-family: var(--mono); font-size: 0.78rem;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text-dim);
+  border-radius: 7px; padding: 0.25rem 0.6rem; cursor: pointer;
+}
+.loaded__clear:hover { color: var(--danger); border-color: var(--danger); }
+
+.ask { display: flex; flex-direction: column; gap: 0.7rem; }
+.ask__btn { align-self: flex-start; }
+
+.err { margin: 0; color: var(--danger); font-family: var(--mono); font-size: 0.85rem; }
+
+.answers { display: flex; flex-direction: column; gap: 0.8rem; }
+.qa {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+.qa--user { background: var(--surface-2); }
+.qa--error { background: var(--danger-soft); border-color: var(--danger); }
+.qa__tag {
+  font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--text-dim);
+}
+.qa__text { margin: 0.35rem 0 0; line-height: 1.55; color: var(--text); white-space: pre-wrap; }
+
+.source {
+  margin-top: 0.7rem;
+  border-left: 2px solid var(--accent);
+  background: var(--accent-soft);
+  border-radius: 0 10px 10px 0;
+  padding: 0.5rem 0.75rem;
+}
+.source__label {
+  font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--accent-strong); font-weight: 600;
+}
+.source__quote { margin: 0.2rem 0 0; font-size: 0.83rem; font-style: italic; color: var(--text-dim); }
+
+.typing { display: inline-flex; gap: 4px; }
+.typing span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--text-dim); animation: bounce 1.2s infinite ease-in-out;
+}
+.typing span:nth-child(2) { animation-delay: 0.15s; }
+.typing span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+.spinner {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2.5px solid var(--border); border-top-color: var(--accent);
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.7rem;
+  margin-top: 0.4rem;
+}
+.feature {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.feature__key { font-family: var(--mono); font-size: 0.78rem; font-weight: 700; color: var(--accent); }
+.feature__val { font-size: 0.82rem; color: var(--text-dim); line-height: 1.4; }
+
+@media (max-width: 620px) {
+  .features { grid-template-columns: 1fr; }
+}

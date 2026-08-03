@@ -1,0 +1,103 @@
+<div class="wrap">
+  <div
+    class="panel chatpage"
+    [class.chatpage--drag]="dragOver()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+  >
+    <div class="chathead">
+      <div>
+        <p class="eyebrow">// chat</p>
+        <h1 class="chathead__title">AI Chat</h1>
+      </div>
+      @if (attachedDoc()) {
+        <button class="toggle" [class.toggle--on]="showSources()" (click)="toggleSources()">
+          <span class="toggle__knob"></span>
+          {{ showSources() ? 'sources: on' : 'sources: off' }}
+        </button>
+      }
+    </div>
+
+    <div class="thread">
+      @if (messages().length === 0) {
+        <div class="empty">
+          <span class="empty__prompt">&gt;_</span>
+          <h2 class="empty__title">Start a conversation</h2>
+          <p class="empty__sub">Ask anything, or attach a document to ask about it.</p>
+          <div class="prompts">
+            <button class="prompt" (click)="useSuggestion('Explain RAG in simple terms.')">explain RAG</button>
+            <button class="prompt" (click)="useSuggestion('Give me 3 productivity tips.')">productivity tips</button>
+            <button class="prompt" (click)="useSuggestion('Summarize the attached document.')">summarize my doc</button>
+          </div>
+        </div>
+      } @else {
+        @for (m of messages(); track trackById($index, m)) {
+          <div class="row row--{{ m.role }}">
+            <span class="row__tag">{{ m.role === 'user' ? 'you' : 'ai' }}</span>
+            <div class="bubble bubble--{{ m.role }}" [class.bubble--error]="m.error">
+              @if (m.pending) {
+                <span class="typing"><span></span><span></span><span></span></span>
+              } @else {
+                {{ m.text }}
+              }
+            </div>
+            @if (m.grounding && showSources()) {
+              <div class="source">
+                <span class="source__label">from your document</span>
+                <p class="source__quote">{{ m.grounding }}</p>
+              </div>
+            }
+          </div>
+        }
+        <div #threadEnd></div>
+      }
+    </div>
+
+    @if (attachedDoc(); as doc) {
+      <div class="attachment">
+        <span class="attachment__icon">{{ '{ }' }}</span>
+        <span class="attachment__name" [title]="doc.filename">{{ doc.filename }}</span>
+        <span class="attachment__meta">{{ formatSize(doc.size) }}</span>
+        <button class="attachment__remove" (click)="removeDoc()" aria-label="Remove document">&times;</button>
+      </div>
+    }
+    @if (uploadError()) {
+      <p class="err">{{ uploadError() }}</p>
+    }
+
+    <div class="composer">
+      <label class="attach" [class.attach--busy]="uploading()" title="Attach a document">
+        <input type="file" (change)="onFileSelected($event)" hidden />
+        @if (uploading()) {
+          <span class="spinner"></span>
+        } @else {
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.4 11.05 12.25 20.2a5 5 0 0 1-7.07-7.07l9.19-9.19a3 3 0 0 1 4.24 4.24l-9.2 9.19a1 1 0 0 1-1.41-1.41l8.49-8.49" />
+          </svg>
+        }
+      </label>
+      <input
+        class="field composer__input"
+        type="text"
+        [ngModel]="draft()"
+        (ngModelChange)="draft.set($event)"
+        (keydown.enter)="onEnter($event)"
+        [disabled]="thinking()"
+        placeholder="Type a message..."
+      />
+      <button class="btn composer__send" [disabled]="!canSend()" (click)="send()">
+        send
+      </button>
+    </div>
+
+    @if (dragOver()) {
+      <div class="drop">
+        <div class="drop__card">
+          <span class="drop__glyph">{{ '{ }' }}</span>
+          drop your document to attach
+        </div>
+      </div>
+    }
+  </div>
+</div>
